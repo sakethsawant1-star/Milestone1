@@ -3,7 +3,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 import os
 
-from phase3 import build_prompt
+from phase3 import build_prompt, enrich_recommendations
 from phase4 import get_recommendations
 
 load_dotenv()
@@ -18,14 +18,16 @@ def recommend():
         return jsonify({"error": "No payload provided"}), 400
         
     # Phase 3: Construct Prompt
-    prompt, error = build_prompt(payload)
+    prompt, error, candidates = build_prompt(payload)
     if error:
         return jsonify({"error": error}), 404
         
     # Phase 4: Get LLM Recommendations
-    recommendations = get_recommendations(prompt)
+    result = get_recommendations(prompt)
+    if "error" not in result and candidates:
+        result = enrich_recommendations(result, candidates)
     
-    return jsonify(recommendations)
+    return jsonify(result)
 
 @app.route('/health', methods=['GET'])
 def health():

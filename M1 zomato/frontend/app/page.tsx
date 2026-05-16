@@ -203,7 +203,16 @@ export default function Home() {
             <h2 className="text-2xl font-bold text-white mb-6">Top Picks For You</h2>
             {recommendations.length > 0 ? (
               recommendations.map((rec, idx) => (
-                <RecommendationCard key={idx} name={rec.name} rationale={rec.rationale} rank={idx + 1} />
+                <RecommendationCard
+                  key={idx}
+                  name={rec.name}
+                  rationale={rec.rationale}
+                  rank={idx + 1}
+                  cuisines={rec.cuisines}
+                  costForTwo={rec.costForTwo}
+                  rating={rec.rating}
+                  location={rec.location}
+                />
               ))
             ) : (
               <p className="text-slate-400">No matching restaurants found.</p>

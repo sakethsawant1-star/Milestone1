@@ -62,6 +62,41 @@ def assemble_context(candidates):
         context_lines.append(line)
     return "\n".join(context_lines)
 
+def _normalize_name(name):
+    return (name or "").lower().strip()
+
+def enrich_recommendations(llm_result, candidates):
+    """Attach dataset fields to LLM picks (no hallucinated cost/rating)."""
+    if not llm_result or "recommendations" not in llm_result:
+        return llm_result
+
+    lookup = {_normalize_name(c["name"]): c for c in candidates}
+
+    enriched = []
+    for rec in llm_result["recommendations"]:
+        key = _normalize_name(rec.get("name"))
+        source = lookup.get(key)
+        if not source:
+            for candidate_key, candidate in lookup.items():
+                if key in candidate_key or candidate_key in key:
+                    source = candidate
+                    break
+
+        item = {
+            "name": rec.get("name", ""),
+            "rationale": rec.get("rationale", ""),
+        }
+        if source:
+            item.update({
+                "location": source.get("location"),
+                "cuisines": source.get("cuisines"),
+                "costForTwo": source.get("costForTwo"),
+                "rating": source.get("rating"),
+            })
+        enriched.append(item)
+
+    return {**llm_result, "recommendations": enriched}
+
 def build_prompt(payload):
     static_ctx = payload.get('staticContext', {})
     nuance = payload.get('nuanceContext', '')
@@ -75,7 +110,7 @@ def build_prompt(payload):
     candidates = filter_restaurants(restaurants, location, budget, cuisine, rating)
     
     if not candidates:
-        return None, "No restaurants found matching the strict location and budget criteria."
+        return None, "No restaurants found matching the strict location and budget criteria.", None
         
     context_str = assemble_context(candidates)
     
@@ -105,4 +140,4 @@ Provide your response in valid JSON format with the following structure:
 }}
 Do NOT output any markdown, only raw JSON.
 """
-    return prompt, None
+    return prompt, None, candidates

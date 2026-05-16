@@ -16,7 +16,7 @@ payload = {
     "nuanceContext": "family lunch, looking for top 5 restaurants with 4.0+ rating"
 }
 
-prompt, error = build_prompt(payload)
+prompt, error, candidates = build_prompt(payload)
 
 if error:
     print(f"Error in Phase 3: {error}")

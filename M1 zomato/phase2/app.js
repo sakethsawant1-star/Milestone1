@@ -10,6 +10,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const resultsGrid = document.getElementById('results-grid');
 
+    function escapeHtml(str) {
+        return String(str ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
+    function formatMeta(rec) {
+        const parts = [];
+        if (rec.cuisines) parts.push(escapeHtml(rec.cuisines.split(',')[0].trim()));
+        if (rec.costForTwo) parts.push(`₹${escapeHtml(rec.costForTwo)} for two`);
+        if (rec.rating != null) parts.push(`⭐ ${escapeHtml(rec.rating)}`);
+        if (rec.location) parts.push(escapeHtml(rec.location));
+        return parts.join(' • ');
+    }
+
     form.addEventListener('submit', (e) => {
         e.preventDefault();
 
@@ -107,15 +124,15 @@ document.addEventListener('DOMContentLoaded', () => {
                             <div class="p-6 flex-grow flex flex-col justify-between ${isFirst ? 'md:w-1/2' : ''}">
                                 <div>
                                     <div class="flex justify-between items-start mb-2">
-                                        <h2 class="text-2xl font-bold text-gray-900 drop-shadow-sm">${rec.name}</h2>
+                                        <h2 class="text-2xl font-bold text-gray-900 drop-shadow-sm">${escapeHtml(rec.name)}</h2>
                                     </div>
-                                    
+                                    ${formatMeta(rec) ? `<p class="text-sm text-gray-600 mb-3 font-medium">${formatMeta(rec)}</p>` : ''}
                                     <div class="bg-[#b7122a]/10 border border-[#b7122a]/20 rounded-lg p-4 mb-4 backdrop-blur-sm">
                                         <div class="flex items-center gap-2 mb-2">
                                             <span class="material-symbols-outlined text-[#b7122a] text-[18px]">psychology</span>
                                             <span class="font-bold text-[#b7122a] text-sm uppercase tracking-wide">Why it fits your vibe</span>
                                         </div>
-                                        <p class="text-gray-800 text-sm leading-relaxed">${rec.rationale}</p>
+                                        <p class="text-gray-800 text-sm leading-relaxed">${escapeHtml(rec.rationale)}</p>
                                     </div>
                                 </div>
                                 <button class="w-full bg-[#b7122a] text-white font-semibold py-3 rounded-lg hover:bg-[#92001c] transition-colors shadow-md active:scale-95">View Details</button>
