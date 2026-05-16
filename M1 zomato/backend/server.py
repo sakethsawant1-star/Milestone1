@@ -27,6 +27,10 @@ def recommend():
     
     return jsonify(recommendations)
 
+@app.route('/health', methods=['GET'])
+def health():
+    return jsonify({"status": "ok"})
+
 @app.route('/api/debug', methods=['GET'])
 def debug_env():
     import sys
@@ -41,6 +45,6 @@ def debug_env():
     })
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 3000))
+    port = int(os.environ.get('PORT', 5001))
     print(f"Starting server on port {port}...")
     app.run(host='0.0.0.0', port=port, debug=True)

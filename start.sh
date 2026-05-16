@@ -1,3 +1,3 @@
 #!/bin/sh
 cd "M1 zomato/backend"
-gunicorn server:app --bind 0.0.0.0:$PORT
+exec gunicorn server:app --bind 0.0.0.0:${PORT:-5000}

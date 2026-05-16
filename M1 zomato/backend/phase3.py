@@ -99,8 +99,6 @@ Provide your response in valid JSON format with the following structure:
   "recommendations": [
     {{
       "name": "Restaurant Name",
-      "location": "Area Name",
-      "rating": 4.5,
       "rationale": "A concise, human-readable explanation of why this restaurant perfectly fits the user's vibe."
     }}
   ]

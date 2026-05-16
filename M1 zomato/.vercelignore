@@ -1,0 +1,10 @@
+backend/
+phase1/
+frontend/
+docs/
+M2 Grow/
+requirements.txt
+Procfile
+railway.toml
+start.sh
+*.py

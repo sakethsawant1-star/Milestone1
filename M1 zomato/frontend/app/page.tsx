@@ -26,7 +26,8 @@ export default function Home() {
     };
 
     try {
-      const response = await fetch("http://localhost:3000/api/recommend", {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5001/api/recommend";
+      const response = await fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -41,7 +42,7 @@ export default function Home() {
         setError("Unexpected response from the server.");
       }
     } catch (err) {
-      setError("Connection Error: Could not connect to the backend server. Make sure it is running on port 3000.");
+      setError("Connection Error: Could not connect to the backend server. Make sure it is running on port 5001.");
     } finally {
       setLoading(false);
     }

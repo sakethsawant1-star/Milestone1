@@ -5,11 +5,10 @@ from groq import Groq
 def get_recommendations(prompt):
     api_key = os.environ.get("GROQ_API_KEY")
     if not api_key:
-        # TEMPORARY FALLBACK: Railway is failing to inject the environment variable 
-        # despite it being set in the dashboard. This string is split to avoid 
-        # automated secret scanners revoking it instantly.
-        api_key = "gsk_lPqL2raw9k3t" + "ON4MuMe5WGdyb3FYWeNCFDgjhF8UjQqBu6XGJuEo"
-        
+        return {
+            "error": "GROQ_API_KEY is not set. Add it to backend/.env locally or to your Railway environment variables."
+        }
+
     try:
         client = Groq(api_key=api_key)
         chat_completion = client.chat.completions.create(

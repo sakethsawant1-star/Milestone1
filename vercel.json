@@ -1,9 +1,7 @@
 {
   "version": 2,
   "framework": null,
+  "installCommand": null,
   "buildCommand": null,
-  "outputDirectory": "M1 zomato/phase2",
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/$1" }
-  ]
+  "outputDirectory": "M1 zomato/phase2"
 }

@@ -1,6 +1,6 @@
 import requests
 
-url = "http://localhost:3000/api/recommend"
+url = "http://localhost:5001/api/recommend"
 payload = {
     "staticContext": {
         "location": "Banashankari",
