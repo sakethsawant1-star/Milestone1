@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { RecommendationCard } from "../components/RecommendationCard";
+import { getRecommendApiUrl } from "../lib/api";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
@@ -26,8 +27,7 @@ export default function Home() {
     };
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5001/api/recommend";
-      const response = await fetch(apiUrl, {
+      const response = await fetch(getRecommendApiUrl(), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

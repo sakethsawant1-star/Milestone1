@@ -45,11 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
             nuanceContext: nuance || "None provided"
         };
 
-        // Determine Backend URL based on environment
-        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-        const backendUrl = isLocalhost
-            ? 'http://localhost:5001/api/recommend'
-            : 'https://web-production-9d250.up.railway.app/api/recommend';
+        const backendUrl = window.APP_CONFIG.getApiUrl();
 
         fetch(backendUrl, {
             method: 'POST',
@@ -141,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 viewResults.classList.remove('hidden');
                 resultsGrid.innerHTML = `
                 <div class="md:col-span-12 glass-card rounded-xl p-8 text-center text-red-600 font-bold">
-                    Connection Error: Could not connect to the backend server. Make sure it is running on port 5001.
+                    Connection Error: Could not reach the backend. Local dev: run <code>python server.py</code> in backend/ (port 5001).
                 </div>
             `;
                 console.error("Fetch error:", err);
