@@ -24,7 +24,7 @@ Instead of choosing from pre-defined genres or scrolling through generic "workou
 
 * **Natural Language Intent Extraction:** Uses Groq (Llama-3.3-70b-versatile) to extract structured JSON (mood, energy, valence, genres, tempo) from your casual description.
 * **Smart Audio Feature Filtering:** Dynamically maps intent to the Spotify Web API using precise audio characteristics like energy, valence, and tempo.
-* **Instant Playlist Generation:** Click a button to save your exact vibe directly to your Spotify library.
+* **Instant Playlist Generation (Mock):** Click a button to save your exact vibe directly to your Spotify library. *(Note: Currently showing a mock of adding recommendations to playlists and favorites due to Spotify API limitations).*
 * **Stateless & Secure:** No database required. Fully relies on zero-storage stateless execution with Spotify OAuth.
 
 ---
@@ -57,7 +57,7 @@ flowchart TD
 
     subgraph Output ["🎶 Result"]
         Display[Renders Song Cards & 30s Previews]
-        Save[Saves to Spotify Playlist]
+        Save[Mocks Saving to Spotify Playlist]
     end
 
     UI --> API
